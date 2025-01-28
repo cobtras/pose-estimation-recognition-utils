@@ -14,8 +14,8 @@ requirements = read_requirements()
 
 setup(
     name='pose-estimation-recognition-utils',
-    version='0.1',
-    packages=['pose-estimation-recognition-utils'],
+    version='0.1.1',
+    packages=['pose_estimation_recognition_utils'],
     install_requires=requirements,
     url='https://pypi.org/project/pose-estimation-recognition-utils/',
     license='Apache 2.0',
