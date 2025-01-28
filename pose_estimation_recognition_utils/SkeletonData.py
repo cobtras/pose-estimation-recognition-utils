@@ -26,8 +26,8 @@ import json
 
 from typing import List, Union
 
-from SkeletonDataPoint import SkeletonDataPoint
-from SkeletonDataPointWithName import SkeletonDataPointWithName
+from .SkeletonDataPoint import SkeletonDataPoint
+from .SkeletonDataPointWithName import SkeletonDataPointWithName
 
 
 class SkeletonData:
