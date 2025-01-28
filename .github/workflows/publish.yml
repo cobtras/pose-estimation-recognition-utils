@@ -29,5 +29,5 @@ jobs:
 
     - name: Publish package to PyPI
       run: |
-        twine upload dist/* -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}
+        twine upload --repository-url https://upload.pypi.org/legacy/ dist/* -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }} --disable-pip-version-check
 
