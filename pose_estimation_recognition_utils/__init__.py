@@ -4,6 +4,6 @@ from .SkeletonDataPoint import SkeletonDataPoint
 from .SkeletonDataPointWithName import SkeletonDataPointWithName
 from .SkeletonLoader import load_skeleton, load_skeleton_object
 
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 __all__ = ['MediaPipePoseNames', 'SkeletonData', 'SkeletonDataPoint', 'SkeletonDataPointWithName', 'load_skeleton',
            'load_skeleton_object']

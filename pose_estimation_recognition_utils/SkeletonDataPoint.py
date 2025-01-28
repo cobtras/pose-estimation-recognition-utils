@@ -35,7 +35,7 @@ class SkeletonDataPoint:
         data (dict): A dictionary containing the point's ID and 3D coordinates (x, y, z).
     """
 
-    def __init__(self, idx: int, name: str, x: float, y: float, z: float):
+    def __init__(self, idx: int, x: float, y: float, z: float):
         """
         Initialize a new SkeletonDataPoint instance.
 
