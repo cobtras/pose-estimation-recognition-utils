@@ -17,7 +17,7 @@ setup(
     version='0.2.0',
     packages=['pose_estimation_recognition_utils'],
     install_requires=requirements,
-    url='https://pypi.org/project/pose-estimation-recognition-utils/',
+    url='https://github.com/cobtras/pose-estimation-recognition-utils',
     license='Apache 2.0',
     author='Jonas David Stephan',
     author_email='j.stephan@system-systeme.de',
