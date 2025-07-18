@@ -13,12 +13,12 @@
 # limitations under the License.
 
 """
-save2Ddata.py
+save2DdataWithName.py
 
-This module defines a class for saving a combination of id, x coordinate and y coordinate.
+This module defines a class for saving a combination of id, name, x coordinate and y coordinate.
 
 Author: Chanyut Boonkhamsaen, Nathalie Dollmann, Jonas David Stephan
-Date: 2025-07-17
+Date: 2025-07-18
 License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 """
 
@@ -26,14 +26,18 @@ import json
 
 from typing import Dict
 
-class save2Ddata:
+class save2DdataWithName:
 
-    def __init__(self, idx: int, x: float, y: float):
+    def __init__(self, idx: int, name: str, x: float, y: float):
         """
-        Initialize a new save2Ddata instance.
+        Initialize a new save2Ddata instance with an additional "name" attribute.
+
+        Attributes:
+            data (dict): A dictionary containing the point's ID, name, and 3D coordinates (x, y, z).
 
         Args:
             idx (int): The ID of the data point.
+            name (str): The name associated with the data point.
             x (float): The x-coordinate of the data point.
             y (float): The y-coordinate of the data point.
 
@@ -42,7 +46,9 @@ class save2Ddata:
         """
         if not all(isinstance(coord, (int, float)) for coord in [x, y]):
             raise ValueError("Coordinates x and y must be numeric.")
-        self.data: Dict[str, float]={"id": idx, "x": x, "y": y}
+        if not isinstance(name, str):
+            raise ValueError("The name must be a string.")
+        self.data: Dict[str, object]={"id": idx, "name": name, "x": x, "y": y}
 
     def get_data(self) -> Dict[str, object]:
         """
