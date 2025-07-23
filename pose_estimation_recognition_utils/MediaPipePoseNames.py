@@ -1,4 +1,4 @@
-# Copyright 2025 Jonas David Stephan
+# Copyright 2025 Jonas David Stephan, Chanyut Boonkhamsaen
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,11 +17,12 @@ MediaPipePoseNames.py
 
 This module defines a class to represent the landmark names for MediaPipe's pose and hand models.
 
-Author: Jonas David Stephan
-Date: 2025-01-28
+Author: Jonas David Stephan, Chanyut Boonkhamsaen
+Date: 2025-07-23
 License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 """
 from typing import Dict
+import warnings 
 
 
 class MediaPipePoseNames:
@@ -34,6 +35,14 @@ class MediaPipePoseNames:
         landmark_names_hand_left (dict): Landmark names for the left hand model.
     """
     def __init__(self):
+        
+        #Verschiebung ins neue Paket
+        warnings.warn(
+            "Moved since 0.3.0 – will be removed in 0.4.0. Please use cobtras/pose-estimation-recognition-utils-mediapipe",
+            DeprecationWarning,
+            stacklevel=2
+        )
+    
         self.landmark_names_pose: Dict[int, str] = {
             0: "nose",
             1: "left eye (inner)",
