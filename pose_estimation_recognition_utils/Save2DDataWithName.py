@@ -32,9 +32,6 @@ class Save2DDataWithName:
         """
         Initialize a new save2Ddata instance with an additional "name" attribute.
 
-        Attributes:
-            data (dict): A dictionary containing the point's ID, name, and 3D coordinates (x, y, z).
-
         Args:
             idx (int): The ID of the data point.
             name (str): The name associated with the data point.

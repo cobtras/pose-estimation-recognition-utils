@@ -24,7 +24,7 @@ License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 
 from .SkeletonDataPoint import SkeletonDataPoint
 from .SkeletonDataPointWithName import SkeletonDataPointWithName
-from .Save2Ddata import Save2DData
+from .Save2DData import Save2DData
 
 class SAD:
     def __init__(self, distance, focal_length, cx_left, cy_left):
