@@ -24,7 +24,7 @@ License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 
 from SkeletonDataPoint import SkeletonDataPoint
 from SkeletonDataPointWithName import SkeletonDataPointWithName
-from save2Ddata import save2Ddata
+from Save2Ddata import Save2DData
 
 class SAD:
     def __init__(self, distance, focal_length, cx_left, cy_left):
@@ -48,12 +48,12 @@ class SAD:
                 x = ((x_left - self.cx_left) * z) / self.focal_length
                 y = ((y_left - self.cy_left) * z) / self.focal_length
                 
-                if isinstance(pixel_list_left[i], save2Ddata):
+                if isinstance(pixel_list_left[i], Save2DData):
                     back.append(SkeletonDataPoint(pixel_list_left[i].data['id'], x, y, z))
                 else:
                     back.append(SkeletonDataPointWithName(pixel_list_left[i].data['id'], pixel_list_left[i].data['name'], x, y, z))
             else:
-                if isinstance(pixel_list_left[i], save2Ddata):
+                if isinstance(pixel_list_left[i], Save2DData):
                     back.append(SkeletonDataPoint(pixel_list_left[i].data['id'], 0, 0, 0))
                 else:
                     back.append(SkeletonDataPointWithName(pixel_list_left[i].data['id'], pixel_list_left[i].data['name'], 0, 0, 0))

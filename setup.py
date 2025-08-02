@@ -14,12 +14,12 @@ requirements = read_requirements()
 
 setup(
     name='pose-estimation-recognition-utils',
-    version='0.2.0',
+    version='0.3.0b1',
     packages=['pose_estimation_recognition_utils'],
     install_requires=requirements,
     url='https://github.com/cobtras/pose-estimation-recognition-utils',
     license='Apache 2.0',
-    author='Jonas David Stephan',
+    author='Jonas David Stephan, Chanyut Boonkhamsaen, Nathalie Dollmann',
     author_email='j.stephan@system-systeme.de',
     description='Classes for AI recognition on pose estimation data',
     long_description='Includes all general classes needed for AI movement recognition based on pose estimation data'
