@@ -100,7 +100,7 @@ img_data = ImageSkeletonData()
 img_data.add_data_point(SkeletonDataPoint(0, 0.23, 0.61, 0.12))
 
 save_obj = PEImage(origion="mediapipe")
-save_obj.set_data_point(img_data)
+save_obj.set_data(img_data)
 json_str = save_obj.to_json()
 
 
