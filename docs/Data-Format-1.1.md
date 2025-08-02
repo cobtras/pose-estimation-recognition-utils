@@ -113,8 +113,8 @@ with open("image.pei", "w") as f:
 
 ```python
 # frame data
-frame_data = VideoSkeletonData(frame=0)
-frame_data.add_data_point(SkeletonDataPoint(0, 0.23, 0.61, 0.12))
+frame = VideoSkeletonData(frame=0)
+frame.add_data_point(SkeletonDataPoint(0, 0.23, 0.61, 0.12))
 
 # Video data
 video_data = PEVideo(origin="mediapipe")
