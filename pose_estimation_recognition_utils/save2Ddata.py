@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-save2Ddata.py
+Save2DData.py
 
 This module defines a class for saving a combination of id, x coordinate and y coordinate.
 
@@ -26,11 +26,11 @@ import json
 
 from typing import Dict
 
-class save2Ddata:
+class Save2DData:
 
     def __init__(self, idx: int, x: float, y: float):
         """
-        Initialize a new save2Ddata instance.
+        Initialize a new Save2DData instance.
 
         Args:
             idx (int): The ID of the data point.

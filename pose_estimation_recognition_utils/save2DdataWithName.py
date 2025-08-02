@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-save2DdataWithName.py
+Save2DDataWithName.py
 
 This module defines a class for saving a combination of id, name, x coordinate and y coordinate.
 
@@ -26,7 +26,7 @@ import json
 
 from typing import Dict
 
-class save2DdataWithName:
+class Save2DDataWithName:
 
     def __init__(self, idx: int, name: str, x: float, y: float):
         """
