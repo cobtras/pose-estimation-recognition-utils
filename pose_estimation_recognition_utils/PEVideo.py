@@ -83,7 +83,7 @@ class PEVideo:
         """
         return json.dumps({
             "origin": self.origin,
-            "frames": [frame.to_json() for frame in self.data]
+            "frames": [json.loads(frame.to_json()) for frame in self.data]
         }, indent=2)
 
     def save_in_file(self, filename:str) -> None:

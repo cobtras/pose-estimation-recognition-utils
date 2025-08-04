@@ -11,7 +11,7 @@ from .SkeletonDataPointWithName import SkeletonDataPointWithName
 from .VideoSkeletonData import VideoSkeletonData
 from .VideoSkeletonLoader import load_video_skeleton, load_video_skeleton_object
 
-__version__ = '0.3.0b4'
+__version__ = '0.3.0b5'
 __all__ = ['ImageSkeletonData', 'load_image_skeleton', 'load_video_skeleton_object', 'MediaPipePoseNames',
            'SkeletonDataPoint', 'SkeletonDataPointWithName', 'VideoSkeletonData', 'load_video_skeleton',
            'load_video_skeleton_object', 'SAD', 'Save2DData', 'Save2DDataWithName', 'PEImage', 'PEVideo']
