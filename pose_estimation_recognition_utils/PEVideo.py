@@ -13,56 +13,66 @@
 # limitations under the License.
 
 """
-PEImage.py
+PEVideo.py
 
-This module defines a class for saving pose estimation data of an image.
+This module defines a class for saving pose estimation data of an video.
 
-Author: Jonas David Stephan
-Date: 2025-08-02
+Author: Jonas David Stephan, Nathalie Dollmann
+Date: 2025-08-04
 License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
 """
 
 import json
 
-from .ImageSkeletonData import ImageSkeletonData
+from .VideoSkeletonData import VideoSkeletonData
+from typing import List
 
 
-class PEImage:
+class PEVideo:
     """
-    Represents skeleton data for an image.
+    Represents skeleton data for an video.
 
     Attributes:
         origin (str): the name of the tool for pose estimation
-        data (ImageSkeletonData): The ImageSkeletonData Object of the image
+        data (list): list of the VideoSkeletonData
     """
-    def __init__(self, origin: str = "", data: ImageSkeletonData = None):
+    def __init__(self, origin: str = "", data: List[VideoSkeletonData] = []):
         """
-        Initialize a new PEImage instance.
+        Initialize a new PEVideo instance.
 
         Args:
             origin (str): the name of the tool for pose estimation
-            data (ImageSkeletonData): The ImageSkeletonData Object of the image
+            data (list): list of the VideoSkeletonData
         """
         self.origin = origin
         self.data = data
 
-    def set_data(self, data: ImageSkeletonData) -> None:
+    def set_data(self, data: List[VideoSkeletonData]) -> None:
         """
-        Adds the ImageSkeletonData to the object.
+        Adds the VideoSkeletonData to the object.
 
         Args:
-            data (ImageSkeletonData): The ImageSkeletonData Object of the image
+            data (list): list of the VideoSkeletonData
         """
         self.data = data
 
-    def get_data(self) -> ImageSkeletonData:
+    def get_data(self) -> List[VideoSkeletonData]:
         """
-        Retrieve the ImageSkeletonData to the object.
+        Retrieve the VideoSkeletonData to the object.
 
         Returns:
-            ImageSkeletonData: The ImageSkeletonData Object of the image.
+            VideoSkeletonData: The VideoSkeletonData Object of the video.
         """
         return self.data
+    
+    def add_frame(self, frame: VideoSkeletonData):
+        """
+        Adds the frame to the data list.
+
+        Args:
+            frame (VideoSkeletonData): video skeleton object of a frame
+        """
+        self.data.append(frame)
 
     def to_json(self) -> str:
         """
@@ -73,7 +83,7 @@ class PEImage:
         """
         return json.dumps({
             "origin": self.origin,
-            "skeletonpoints": json.loads(self.data.to_json())
+            "frames": json.dumps([frame.to_json() for frame in self.data], indent=2)
         }, indent=2)
 
     def save_in_file(self, filename:str) -> None:
