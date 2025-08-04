@@ -36,7 +36,7 @@ class PEVideo:
         origin (str): the name of the tool for pose estimation
         data (list): list of the VideoSkeletonData
     """
-    def __init__(self, origin: str = "", data: List[VideoSkeletonData] = []):
+    def __init__(self, origin: str, data: List[VideoSkeletonData] = []):
         """
         Initialize a new PEVideo instance.
 

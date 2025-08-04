@@ -35,7 +35,7 @@ class PEImage:
         origin (str): the name of the tool for pose estimation
         data (ImageSkeletonData): The ImageSkeletonData Object of the image
     """
-    def __init__(self, origin: str = "", data: ImageSkeletonData = None):
+    def __init__(self, origin: str, data: ImageSkeletonData = None):
         """
         Initialize a new PEImage instance.
 
