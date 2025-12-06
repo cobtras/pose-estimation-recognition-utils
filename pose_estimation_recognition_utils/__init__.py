@@ -14,7 +14,7 @@ from .SkeletonDataPointWithNameAndConfidence import SkeletonDataPointWithNameAnd
 from .VideoSkeletonData import VideoSkeletonData
 from .VideoSkeletonLoader import load_video_skeleton, load_video_skeleton_object, load_video_skeleton_from_string, load_video_skeleton_all_points, load_video_skeleton_from_string_all_points, load_video_skeleton_object_all_points
 
-__version__ = '0.3.0b6'
+__version__ = '0.3.0'
 __all__ = ['ImageSkeletonData', 'load_image_skeleton', 'load_image_skeleton_object', 'load_image_skeleton_all_points', 'load_image_skeleton_object_all_points',
            'load_image_skeleton_from_string', 'load_image_skeleton_from_string_all_points', 'SkeletonDataPoint',
            'SkeletonDataPointWithConfidence', 'SkeletonDataPointWithName', 'SkeletonDataPointWithNameAndConfidence',
