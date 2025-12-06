@@ -27,13 +27,38 @@ from .SkeletonDataPointWithName import SkeletonDataPointWithName
 from .Save2DData import Save2DData
 
 class SAD:
-    def __init__(self, distance, focal_length, cx_left, cy_left):
+
+    def __init__(self, distance: float, focal_length: float, cx_left: float, cy_left: float):
+        """
+        Initialize a new SAD instance.
+
+        Args:
+            distance (float): distance between camera centers in millimeters
+            focal_length (float): focal length of cameras in pixels
+            cx_left (float): x-coordinate of the principal point (optical center) for the left camera in pixels
+            cy_left (float): y-coordinate of the principal point (optical center) for the left camera in pixels
+        """
         self.focal_length = focal_length
         self.fB = focal_length * distance
         self.cx_left = cx_left
         self.cy_left = cy_left
 
     def merge_pixel(self, pixel_list_left, pixel_list_right):
+        """ 
+        Convert 2D pixel coordinates from left and right stereo images to 3D coordinates.
+        
+        This method computes the 3D position (x, y, z) for each corresponding point pair
+        using the disparity between left and right image coordinates. The z-coordinate
+        represents depth from the camera.        
+
+        Args:
+            pixel_list_left (float): list of 2D data points from the left camera image
+            pixel_list_right (float): lsit of corresponding 2D data points from the right camera image
+
+        Returns:
+            list: list of 3D data points (SkeletonDataPoint or SkeletonDataPointWithName) containing the calculated (x, y, z) coordinates in real-world units.
+        """
+        
         back = []
         l = len(pixel_list_left)
         for i in range(l):
