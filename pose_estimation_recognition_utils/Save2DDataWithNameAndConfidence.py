@@ -13,7 +13,7 @@
 # limitations under the License.
 
 """
-Save2DDataWithConfidence.py
+Save2DDataWithNameAndConfidence.py
 
 This module defines a class for saving a combination of id, x coordinate and y coordinate with confidence.
 
@@ -24,11 +24,11 @@ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 
 from .Save2DDataWithName import Save2DDataWithName
 
-class Save2DDataWithConfidence(Save2DDataWithName):
+class Save2DDataWithNameAndConfidence(Save2DDataWithName):
 
     def __init__(self, idx: int, name: str, x: float, y: float, confidence: float):
         """
-        Initialize a new Save2DDataWithConfidence instance.
+        Initialize a new Save2DDataWithNameAndConfidence instance.
 
         Args:
             idx (int): The ID of the data point.
