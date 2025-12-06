@@ -27,7 +27,9 @@ import json
 from typing import List, Union
 
 from .SkeletonDataPoint import SkeletonDataPoint
+from .SkeletonDataPointWithConfidence import SkeletonDataPointWithConfidence
 from .SkeletonDataPointWithName import SkeletonDataPointWithName
+from .SkeletonDataPointWithNameAndConfidence import SkeletonDataPointWithNameAndConfidence
 
 
 class VideoSkeletonData:
@@ -36,7 +38,8 @@ class VideoSkeletonData:
 
     Attributes:
         data_points (list): A list of data points associated with the skeleton. Each data point can be either a
-            SkeletonDataPoint or a SkeletonDataPointWithName instance.
+            SkeletonDataPoint, a SkeletonDataPointWithConfidence, a SkeletonDataPointWithName or a
+            SkeletonDataPointWithNameAndConfidence instance.
         frame (int): The frame number corresponding to the skeleton data.
     """
     def __init__(self, frame):
@@ -46,19 +49,23 @@ class VideoSkeletonData:
         Args:
             frame (int): The frame number corresponding to the skeleton data.
         """
-        self.data_points: List[Union[SkeletonDataPoint, SkeletonDataPointWithName]] = []
+        self.data_points: List[Union[SkeletonDataPoint, SkeletonDataPointWithConfidence, SkeletonDataPointWithName,
+            SkeletonDataPointWithNameAndConfidence]] = []
         self.frame: int = frame
 
-    def add_data_point(self, data_point: Union[SkeletonDataPoint, SkeletonDataPointWithName]) -> None:
+    def add_data_point(self, data_point: Union[SkeletonDataPoint, SkeletonDataPointWithConfidence,
+        SkeletonDataPointWithName, SkeletonDataPointWithNameAndConfidence]) -> None:
         """
         Add a data point to the skeleton.
 
         Args:
-            data_point (Union[SkeletonDataPoint, SkeletonDataPointWithName]): A data point representing a part of the skeleton.
+            data_point (Union[SkeletonDataPoint, SkeletonDataPointWithConfidence, SkeletonDataPointWithName,
+                SkeletonDataPointWithNameAndConfidence]): A data point representing a part of the skeleton.
         """
         self.data_points.append(data_point)
 
-    def get_data_points(self) -> List[Union[SkeletonDataPoint, SkeletonDataPointWithName]]:
+    def get_data_points(self) -> List[Union[SkeletonDataPoint, SkeletonDataPointWithConfidence,
+        SkeletonDataPointWithName, SkeletonDataPointWithNameAndConfidence]]:
         """
         Retrieve all data points in the skeleton.
 
