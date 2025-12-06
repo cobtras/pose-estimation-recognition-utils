@@ -19,7 +19,7 @@ This module defines a class for saving a combination of id, x coordinate and y c
 
 Author: Chanyut Boonkhamsaen, Nathalie Dollmann, Jonas David Stephan
 Date: 2025-07-18
-License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
+License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
 import json

@@ -19,7 +19,7 @@ This module defines a class for managing skeleton data, including data points.
 
 Author: Jonas David Stephan
 Date: 2025-04-25
-License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
+License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
 import json

@@ -19,7 +19,7 @@ This module defines a class for saving pose estimation data of an image.
 
 Author: Jonas David Stephan
 Date: 2025-08-02
-License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
+License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
 import json

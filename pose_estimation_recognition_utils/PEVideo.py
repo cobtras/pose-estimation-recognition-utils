@@ -15,11 +15,11 @@
 """
 PEVideo.py
 
-This module defines a class for saving pose estimation data of an video.
+This module defines a class for saving pose estimation data of a video.
 
 Author: Jonas David Stephan, Nathalie Dollmann
 Date: 2025-08-04
-License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
+License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
 import json
@@ -30,13 +30,13 @@ from typing import List
 
 class PEVideo:
     """
-    Represents skeleton data for an video.
+    Represents skeleton data for a video.
 
     Attributes:
         origin (str): the name of the tool for pose estimation
         data (list): list of the VideoSkeletonData
     """
-    def __init__(self, origin: str, data: List[VideoSkeletonData] = []):
+    def __init__(self, origin: str, data=None):
         """
         Initialize a new PEVideo instance.
 
@@ -44,6 +44,8 @@ class PEVideo:
             origin (str): the name of the tool for pose estimation
             data (list): list of the VideoSkeletonData
         """
+        if data is None:
+            data=[]
         self.origin = origin
         self.data = data
 

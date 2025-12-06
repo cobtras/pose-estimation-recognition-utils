@@ -19,7 +19,7 @@ This module defines a class for the implementation of SAD algorithm.
 
 Author: Nathalie Dollmann, Jonas David Stephan
 Date: 2025-07-18
-License: Apache License 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
+License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
 from .SkeletonDataPoint import SkeletonDataPoint
