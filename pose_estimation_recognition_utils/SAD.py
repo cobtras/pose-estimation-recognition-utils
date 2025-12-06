@@ -22,9 +22,14 @@ Date: 2025-07-18
 License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
+from typing import List, Union
+
 from .SkeletonDataPoint import SkeletonDataPoint
 from .SkeletonDataPointWithName import SkeletonDataPointWithName
 from .Save2DData import Save2DData
+from .Save2DDataWithName import Save2DDataWithName
+from .Save2DDataWithConfidence import Save2DDataWithConfidence
+from .Save2DDataWithNameAndConfidence import Save2DDataWithNameAndConfidence
 
 class SAD:
 
@@ -43,7 +48,8 @@ class SAD:
         self.cx_left = cx_left
         self.cy_left = cy_left
 
-    def merge_pixel(self, pixel_list_left, pixel_list_right):
+    def merge_pixel(self, pixel_list_left: List[Union[Save2DData, Save2DDataWithName, Save2DDataWithConfidence, Save2DDataWithNameAndConfidence]],
+                    pixel_list_right: List[Union[Save2DData, Save2DDataWithName, Save2DDataWithConfidence, Save2DDataWithNameAndConfidence]]) -> List[Union[SkeletonDataPoint, SkeletonDataPointWithName]]:
         """ 
         Convert 2D pixel coordinates from left and right stereo images to 3D coordinates.
         
@@ -52,8 +58,8 @@ class SAD:
         represents depth from the camera.        
 
         Args:
-            pixel_list_left (float): list of 2D data points from the left camera image
-            pixel_list_right (float): lsit of corresponding 2D data points from the right camera image
+            pixel_list_left (list): list of 2D data points from the left camera image
+            pixel_list_right (list): lsit of corresponding 2D data points from the right camera image
 
         Returns:
             list: list of 3D data points (SkeletonDataPoint or SkeletonDataPointWithName) containing the calculated (x, y, z) coordinates in real-world units.
