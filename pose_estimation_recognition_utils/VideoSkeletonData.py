@@ -83,6 +83,16 @@ class VideoSkeletonData:
         """
         return self.frame
 
+    def to_dict(self) -> dict:
+        """
+        Convert the skeleton data to a dictionary.
+
+        Returns:
+            dict: A dictionary representing the skeleton data.
+        """
+        data_list = [data_point.to_dict() for data_point in self.data_points]
+        return {"frame": self.frame, "skeletonpoints": data_list}
+
     def to_json(self) -> str:
         """
         Convert the skeleton data to a JSON string.

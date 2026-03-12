@@ -73,7 +73,10 @@ class SAD:
             
             if x_left != 0 and x_right != 0:
                 difference = x_left - x_right
-                z = self.fB / difference
+                if difference != 0:
+                    z = self.fB / difference
+                else:
+                    z = 10000000.0
             
                 y_left = pixel_list_left[i].data['y']
                 x = ((x_left - self.cx_left) * z) / self.focal_length

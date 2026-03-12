@@ -197,7 +197,7 @@ def load_video_skeleton_object(skeleton_object: List, points_to_include: str) ->
 
     for frame in skeleton_object:
         point_array = []
-        for point in frame.data_points:
+        for point in frame.get_data_points():
             if should_include_point(point.data['id']):
                 skeleton_array = np.array([point.data['x'], point.data['y'], point.data['z']])
                 point_array.append(skeleton_array)
@@ -241,7 +241,7 @@ def load_video_skeleton_object_all_points(skeleton_object: List, points_to_inclu
 
     for frame in skeleton_object:
         point_array = []
-        for point in frame.data_points:
+        for point in frame.get_data_points():
             if should_include_point(point.data['id']):
                 skeleton_array = np.array([point.data['x'], point.data['y'], point.data['z']])
                 point_array.append(skeleton_array)

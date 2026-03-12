@@ -42,7 +42,7 @@ class PEVideo:
 
         Args:
             origin (str): the name of the tool for pose estimation
-            data (list): list of the VideoSkeletonData
+            data (List[VideoSkeletonData]): list of the VideoSkeletonData
         """
         if data is None:
             data=[]
@@ -85,7 +85,7 @@ class PEVideo:
         """
         return json.dumps({
             "origin": self.origin,
-            "frames": [json.loads(frame.to_json()) for frame in self.data]
+            "frames": [frame.to_dict() for frame in self.data]
         }, indent=2)
 
     def save_in_file(self, filename:str) -> None:

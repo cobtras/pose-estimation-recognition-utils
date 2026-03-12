@@ -73,7 +73,7 @@ class PEImage:
         """
         return json.dumps({
             "origin": self.origin,
-            "skeletonpoints": json.loads(self.data.to_json())
+            "skeletonpoints": self.data.to_dict()["skeletonpoints"]
         }, indent=2)
 
     def save_in_file(self, filename:str) -> None:

@@ -31,7 +31,7 @@ from pose_estimation_recognition_utils import ImageSkeletonData
 
 def load_image_skeleton(file_path: str, points_to_include: str) -> np.ndarray:
     """
-    Loads skeleton data from a JSON file and filters the points based on specified ranges and individual points for video data.
+    Loads skeleton data from a JSON file and filters the points based on specified ranges and individual points for image data.
 
     Args:
         file_path (str): Path to the JSON file containing the skeleton data.
@@ -49,7 +49,7 @@ def load_image_skeleton(file_path: str, points_to_include: str) -> np.ndarray:
 
 def load_image_skeleton_all_points(file_path: str, points_to_include: str) -> np.ndarray:
     """
-    Loads skeleton data from a JSON file and filters the points based on specified ranges and individual points for video data.
+    Loads skeleton data from a JSON file and filters the points based on specified ranges and individual points for image data.
 
     Args:
         file_path (str): Path to the JSON file containing the skeleton data.
