@@ -21,6 +21,7 @@ Author: Jonas David Stephan
 Date: 2025-01-28
 License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
+import gzip
 import numpy as np
 import json
 
@@ -249,3 +250,35 @@ def load_image_skeleton_object_all_points(skeleton_object: ImageSkeletonData, po
             point_array.append(skeleton_array)
 
     return np.array(point_array)
+
+
+def load_image_skeleton_from_compressed_file(file_path: str, points_to_include: str) -> np.ndarray:
+    """
+    Loads skeleton data from a compressed JSON file (.peiz) and filters the points.
+
+    Args:
+        file_path (str): Path to the compressed JSON file.
+        points_to_include (str): Ranges and individual point IDs to include.
+
+    Returns:
+        np.ndarray: Filtered skeleton data.
+    """
+    with gzip.open(file_path, "rt", encoding="utf-8") as file:
+        file_content = file.read()
+        return load_image_skeleton_from_string(file_content, points_to_include)
+
+
+def load_image_skeleton_all_points_from_compressed_file(file_path: str, points_to_include: str) -> np.ndarray:
+    """
+    Loads skeleton data from a compressed JSON file (.peiz) and filters the points. Fill unwanted points with zeros.
+
+    Args:
+        file_path (str): Path to the compressed JSON file.
+        points_to_include (str): Ranges and individual point IDs to include.
+
+    Returns:
+        np.ndarray: Filtered skeleton data.
+    """
+    with gzip.open(file_path, "rt", encoding="utf-8") as file:
+        file_content = file.read()
+        return load_image_skeleton_from_string_all_points(file_content, points_to_include)

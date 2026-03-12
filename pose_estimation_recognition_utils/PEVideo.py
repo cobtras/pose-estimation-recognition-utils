@@ -23,9 +23,10 @@ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
 import json
+import gzip
+from typing import List
 
 from .VideoSkeletonData import VideoSkeletonData
-from typing import List
 
 
 class PEVideo:
@@ -108,7 +109,7 @@ class PEVideo:
         res["frames"] = [frame.to_dict() for frame in self.data]
         return json.dumps(res, indent=2)
 
-    def save_in_file(self, filename:str) -> None:
+    def save_in_file(self, filename: str) -> None:
         """
         Writes the object in JSON format into file
 
@@ -116,4 +117,14 @@ class PEVideo:
             filename (str): The filename (with path) to the file to save
         """
         with open(filename, "w") as f:
+            f.write(self.to_json())
+
+    def save_in_compressed_file(self, filename: str) -> None:
+        """
+        Writes the object in JSON format into a compressed file (.pevz)
+
+        Args:
+            filename (str): The filename (with path) to the file to save
+        """
+        with gzip.open(filename, "wt", encoding="utf-8") as f:
             f.write(self.to_json())

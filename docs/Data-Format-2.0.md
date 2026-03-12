@@ -1,4 +1,4 @@
-# 📄 Data Format Documentation v2.0: Rich Metadata & Multi-Person Support
+# 📄 Data Format Documentation v2.0 (.pei, .pev, .peiz, .pevz)
 
 Version 2.0 introduces optional metadata fields for model tracking and native support for multiple persons in a single image or video.
 
@@ -91,9 +91,29 @@ In videos, each frame contains a `persons` array to track individuals over time.
 
 ## 🏗️ Architectural Changes
 
-1. **`PEImage` / `PEVideo`**: Will now support a dictionary of metadata.
-2. **`MultiPersonImage` / `MultiPersonVideo`**: New classes to handle the `persons` array logic.
-3. **Backward Compatibility**: Single-person files will still be supported by wrapping them or using the legacy classes.
+1. **`PEImage` / `PEVideo`**: Support metadata fields and multi-person tracking via the `persons` array.
+2. **`save_in_compressed_file`**: New method for GZIP compression.
+3. **Backward Compatibility**: Single-person files are still supported and automatically handled by loaders.
+
+---
+
+## 📦 Compressed Formats (.peiz, .pevz)
+Version 2.0 supports compressed storage using **GZIP**:
+- **Images**: `.peiz` (Compressed `.pei`)
+- **Videos**: `.pevz` (Compressed `.pev`)
+
+These files contain the exact same JSON structure but are significantly smaller on disk.
+
+### Usage in Python
+```python
+# Saving
+image.save_in_compressed_file("data.peiz")
+video.save_in_compressed_file("data.pevz")
+
+# Loading
+from pose_estimation_recognition_utils import load_image_skeleton_from_compressed_file
+data = load_image_skeleton_from_compressed_file("data.peiz", "0-32")
+```
 
 ---
 
