@@ -81,6 +81,13 @@ def load_image_skeleton_from_string(string: str, points_to_include: str) -> np.n
 
     content = json.loads(string)
 
+    skeleton_points = []
+    if 'skeletonpoints' in content:
+        skeleton_points = content['skeletonpoints']
+    elif 'persons' in content and len(content['persons']) > 0:
+        # Fallback: load the first person's skeleton
+        skeleton_points = content['persons'][0]['skeletonpoints']
+
     points: Set[int] = set()
     ranges: List[Tuple[int, int]] = []
 
@@ -100,7 +107,7 @@ def load_image_skeleton_from_string(string: str, points_to_include: str) -> np.n
         return False
 
     point_array = []
-    for point in content['skeletonpoints']:
+    for point in skeleton_points:
         if should_include_point(point['id']):
             skeleton_array = np.array([point['x'], point['y'], point['z']])
             point_array.append(skeleton_array)
@@ -124,6 +131,13 @@ def load_image_skeleton_from_string_all_points(string: str, points_to_include: s
 
     content = json.loads(string)
 
+    skeleton_points = []
+    if 'skeletonpoints' in content:
+        skeleton_points = content['skeletonpoints']
+    elif 'persons' in content and len(content['persons']) > 0:
+        # Fallback: load the first person's skeleton
+        skeleton_points = content['persons'][0]['skeletonpoints']
+
     points: Set[int] = set()
     ranges: List[Tuple[int, int]] = []
 
@@ -143,7 +157,7 @@ def load_image_skeleton_from_string_all_points(string: str, points_to_include: s
         return False
 
     point_array = []
-    for point in content['skeletonpoints']:
+    for point in skeleton_points:
         if should_include_point(point['id']):
             skeleton_array = np.array([point['x'], point['y'], point['z']])
             point_array.append(skeleton_array)
@@ -187,8 +201,8 @@ def load_image_skeleton_object(skeleton_object: ImageSkeletonData, points_to_inc
 
     point_array = []
     for point in skeleton_object.get_data_points():
-        if should_include_point(point.data['id']):
-            skeleton_array = np.array([point.data['x'], point.data['y'], point.data['z']])
+        if should_include_point(point.to_dict()['id']):
+            skeleton_array = np.array([point.to_dict()['x'], point.to_dict()['y'], point.to_dict()['z']])
             point_array.append(skeleton_array)
 
     return np.array(point_array)
@@ -227,8 +241,8 @@ def load_image_skeleton_object_all_points(skeleton_object: ImageSkeletonData, po
 
     point_array = []
     for point in skeleton_object.get_data_points():
-        if should_include_point(point.data['id']):
-            skeleton_array = np.array([point.data['x'], point.data['y'], point.data['z']])
+        if should_include_point(point.to_dict()['id']):
+            skeleton_array = np.array([point.to_dict()['x'], point.to_dict()['y'], point.to_dict()['z']])
             point_array.append(skeleton_array)
         else:
             skeleton_array = np.array([0, 0, 0])

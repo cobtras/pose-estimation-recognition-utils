@@ -34,20 +34,25 @@ from .SkeletonDataPointWithNameAndConfidence import SkeletonDataPointWithNameAnd
 
 class ImageSkeletonData:
     """
-    Represents skeleton data for a specific frame, including multiple data points.
+    Represents skeleton data for a specific person in a frame, including multiple data points and metadata.
 
     Attributes:
-        data_points (list): A list of data points associated with the skeleton. Each data point can be either a
-            SkeletonDataPoint, a SkeletonDataPointWithConfidence, a SkeletonDataPointWithName or a
-            SkeletonDataPointWithNameAndConfidence instance.
+        data_points (list): A list of data points associated with the skeleton.
+        person_id (int): The ID of the person (optional).
+        BoundingBox (list): The bounding box [x, y, w, h] of the person (optional).
     """
-    def __init__(self):
+    def __init__(self, person_id: int = None, BoundingBox: List[float] = None):
         """
-        Initialize the SkeletonData instance with a frame number.
+        Initialize the SkeletonData instance.
 
+        Args:
+            person_id (int): The ID of the person (optional).
+            BoundingBox (list): The bounding box [x, y, w, h] of the person (optional).
         """
         self.data_points: List[Union[SkeletonDataPoint, SkeletonDataPointWithConfidence, SkeletonDataPointWithName,
         SkeletonDataPointWithNameAndConfidence]] = []
+        self.person_id = person_id
+        self.BoundingBox = BoundingBox
 
     def add_data_point(self, data_point: Union[SkeletonDataPoint, SkeletonDataPointWithConfidence,
         SkeletonDataPointWithName,  SkeletonDataPointWithNameAndConfidence]) -> None:
@@ -78,7 +83,12 @@ class ImageSkeletonData:
             dict: A dictionary representing the skeleton data.
         """
         data_list = [data_point.to_dict() for data_point in self.data_points]
-        return {"skeletonpoints": data_list}
+        res = {"skeletonpoints": data_list}
+        if self.person_id is not None:
+            res["person_id"] = self.person_id
+        if self.BoundingBox is not None:
+            res["BoundingBox"] = self.BoundingBox
+        return res
 
     def to_json(self) -> str:
         """
@@ -87,7 +97,4 @@ class ImageSkeletonData:
         Returns:
             str: A JSON-formatted string representing the skeleton data.
         """
-        data_list = [json.loads(data_point.to_json()) for data_point in self.data_points]
-        data = {"skeletonpoints": data_list}
-
-        return json.dumps(data)
+        return json.dumps(self.to_dict())

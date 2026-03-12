@@ -33,9 +33,16 @@ class PEImage:
 
     Attributes:
         origin (str): the name of the tool for pose estimation
-        data (ImageSkeletonData): The ImageSkeletonData Object of the image
+        data (ImageSkeletonData): The ImageSkeletonData Object of the image (single person/legacy)
+        persons (list): List of ImageSkeletonData objects (multi-person)
+        HumanDetectionModel (str): Optional metadata
+        PoseEstimationModel (str): Optional metadata
+        Pose3DGenerationMethod (str): Optional metadata
+        lifting_model_3d (str): Optional metadata (3DLiftingModel)
     """
-    def __init__(self, origin: str, data: ImageSkeletonData = None):
+    def __init__(self, origin: str, data: ImageSkeletonData = None,
+                 HumanDetectionModel: str = None, PoseEstimationModel: str = None,
+                 Pose3DGenerationMethod: str = None, lifting_model_3d: str = None):
         """
         Initialize a new PEImage instance.
 
@@ -45,6 +52,11 @@ class PEImage:
         """
         self.origin = origin
         self.data = data
+        self.persons: List[ImageSkeletonData] = []
+        self.HumanDetectionModel = HumanDetectionModel
+        self.PoseEstimationModel = PoseEstimationModel
+        self.Pose3DGenerationMethod = Pose3DGenerationMethod
+        self.lifting_model_3d = lifting_model_3d
 
     def set_data(self, data: ImageSkeletonData) -> None:
         """
@@ -54,6 +66,15 @@ class PEImage:
             data (ImageSkeletonData): The ImageSkeletonData Object of the image
         """
         self.data = data
+
+    def add_person(self, person: ImageSkeletonData) -> None:
+        """
+        Adds a person's skeleton data.
+
+        Args:
+            person (ImageSkeletonData): Skeleton data for one person.
+        """
+        self.persons.append(person)
 
     def get_data(self) -> ImageSkeletonData:
         """
@@ -71,10 +92,28 @@ class PEImage:
         Returns:
              str: The object as JSON string.
         """
-        return json.dumps({
-            "origin": self.origin,
-            "skeletonpoints": self.data.to_dict()["skeletonpoints"]
-        }, indent=2)
+        res = {"origin": self.origin}
+        
+        # Add metadata if present
+        if self.HumanDetectionModel:
+            res["HumanDetectionModel"] = self.HumanDetectionModel
+        if self.PoseEstimationModel:
+            res["PoseEstimationModel"] = self.PoseEstimationModel
+        if self.Pose3DGenerationMethod:
+            res["Pose3DGenerationMethod"] = self.Pose3DGenerationMethod
+        if self.lifting_model_3d:
+            res["3DLiftingModel"] = self.lifting_model_3d
+
+        if self.persons:
+            res["persons"] = [p.to_dict() for p in self.persons]
+        elif self.data:
+            res["skeletonpoints"] = self.data.to_dict()["skeletonpoints"]
+            if self.data.person_id is not None:
+                res["person_id"] = self.data.person_id
+            if self.data.BoundingBox is not None:
+                res["BoundingBox"] = self.data.BoundingBox
+
+        return json.dumps(res, indent=2)
 
     def save_in_file(self, filename:str) -> None:
         """

@@ -100,8 +100,14 @@ def load_video_skeleton_from_string(string: str, points_to_include: str) -> np.n
         return False
 
     for frame in content["frames"]:
+        skeleton_points = []
+        if 'skeletonpoints' in frame:
+            skeleton_points = frame['skeletonpoints']
+        elif 'persons' in frame and len(frame['persons']) > 0:
+            skeleton_points = frame['persons'][0]['skeletonpoints']
+
         point_array = []
-        for point in frame['skeletonpoints']:
+        for point in skeleton_points:
             if should_include_point(point['id']):
                 skeleton_array = np.array([point['x'], point['y'], point['z']])
                 point_array.append(skeleton_array)
@@ -148,8 +154,14 @@ def load_video_skeleton_from_string_all_points(string: str, points_to_include: s
         return False
 
     for frame in content["frames"]:
+        skeleton_points = []
+        if 'skeletonpoints' in frame:
+            skeleton_points = frame['skeletonpoints']
+        elif 'persons' in frame and len(frame['persons']) > 0:
+            skeleton_points = frame['persons'][0]['skeletonpoints']
+
         point_array = []
-        for point in frame['skeletonpoints']:
+        for point in skeleton_points:
             if should_include_point(point['id']):
                 skeleton_array = np.array([point['x'], point['y'], point['z']])
                 point_array.append(skeleton_array)
@@ -196,10 +208,17 @@ def load_video_skeleton_object(skeleton_object: List, points_to_include: str) ->
         return False
 
     for frame in skeleton_object:
+        skeleton_points = []
+        if frame.persons:
+            skeleton_points = frame.persons[0].get_data_points()
+        else:
+            skeleton_points = frame.get_data_points()
+
         point_array = []
-        for point in frame.get_data_points():
-            if should_include_point(point.data['id']):
-                skeleton_array = np.array([point.data['x'], point.data['y'], point.data['z']])
+        for point in skeleton_points:
+            p_dict = point.to_dict()
+            if should_include_point(p_dict['id']):
+                skeleton_array = np.array([p_dict['x'], p_dict['y'], p_dict['z']])
                 point_array.append(skeleton_array)
         frames_array.append(point_array)
 
@@ -240,10 +259,17 @@ def load_video_skeleton_object_all_points(skeleton_object: List, points_to_inclu
         return False
 
     for frame in skeleton_object:
+        skeleton_points = []
+        if frame.persons:
+            skeleton_points = frame.persons[0].get_data_points()
+        else:
+            skeleton_points = frame.get_data_points()
+
         point_array = []
-        for point in frame.get_data_points():
-            if should_include_point(point.data['id']):
-                skeleton_array = np.array([point.data['x'], point.data['y'], point.data['z']])
+        for point in skeleton_points:
+            p_dict = point.to_dict()
+            if should_include_point(p_dict['id']):
+                skeleton_array = np.array([p_dict['x'], p_dict['y'], p_dict['z']])
                 point_array.append(skeleton_array)
             else:
                 skeleton_array = np.array([0, 0, 0])

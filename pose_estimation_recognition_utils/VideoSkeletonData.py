@@ -34,15 +34,14 @@ from .SkeletonDataPointWithNameAndConfidence import SkeletonDataPointWithNameAnd
 
 class VideoSkeletonData:
     """
-    Represents skeleton data for a specific frame, including multiple data points.
+    Represents skeleton data for a specific frame, including multiple persons (each with their own data points).
 
     Attributes:
-        data_points (list): A list of data points associated with the skeleton. Each data point can be either a
-            SkeletonDataPoint, a SkeletonDataPointWithConfidence, a SkeletonDataPointWithName or a
-            SkeletonDataPointWithNameAndConfidence instance.
+        data_points (list): Legacy attribute for single-person data points.
+        persons (list): A list of ImageSkeletonData objects, one for each person in the frame.
         frame (int): The frame number corresponding to the skeleton data.
     """
-    def __init__(self, frame):
+    def __init__(self, frame: int):
         """
         Initialize the SkeletonData instance with a frame number.
 
@@ -51,12 +50,13 @@ class VideoSkeletonData:
         """
         self.data_points: List[Union[SkeletonDataPoint, SkeletonDataPointWithConfidence, SkeletonDataPointWithName,
             SkeletonDataPointWithNameAndConfidence]] = []
+        self.persons: List[ImageSkeletonData] = []
         self.frame: int = frame
 
     def add_data_point(self, data_point: Union[SkeletonDataPoint, SkeletonDataPointWithConfidence,
         SkeletonDataPointWithName, SkeletonDataPointWithNameAndConfidence]) -> None:
         """
-        Add a data point to the skeleton.
+        Add a data point to the skeleton (legacy/single person).
 
         Args:
             data_point (Union[SkeletonDataPoint, SkeletonDataPointWithConfidence, SkeletonDataPointWithName,
@@ -64,10 +64,19 @@ class VideoSkeletonData:
         """
         self.data_points.append(data_point)
 
+    def add_person(self, person: ImageSkeletonData) -> None:
+        """
+        Add a person's skeleton data to the frame.
+
+        Args:
+            person (ImageSkeletonData): The skeleton data for one person.
+        """
+        self.persons.append(person)
+
     def get_data_points(self) -> List[Union[SkeletonDataPoint, SkeletonDataPointWithConfidence,
         SkeletonDataPointWithName, SkeletonDataPointWithNameAndConfidence]]:
         """
-        Retrieve all data points in the skeleton.
+        Retrieve all data points in the skeleton (legacy/single person).
 
         Returns:
             list: A list of data points.
@@ -90,8 +99,14 @@ class VideoSkeletonData:
         Returns:
             dict: A dictionary representing the skeleton data.
         """
-        data_list = [data_point.to_dict() for data_point in self.data_points]
-        return {"frame": self.frame, "skeletonpoints": data_list}
+        res = {"frame": self.frame}
+        if self.persons:
+            res["persons"] = [p.to_dict() for p in self.persons]
+        else:
+            # Fallback for backward compatibility
+            data_list = [data_point.to_dict() for data_point in self.data_points]
+            res["skeletonpoints"] = data_list
+        return res
 
     def to_json(self) -> str:
         """
@@ -100,7 +115,4 @@ class VideoSkeletonData:
         Returns:
             str: A JSON-formatted string representing the skeleton data.
         """
-        data_list = [json.loads(data_point.to_json()) for data_point in self.data_points]
-        data = {"frame": self.frame, "skeletonpoints": data_list}
-
-        return json.dumps(data)
+        return json.dumps(self.to_dict())

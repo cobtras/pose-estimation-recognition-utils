@@ -35,8 +35,14 @@ class PEVideo:
     Attributes:
         origin (str): the name of the tool for pose estimation
         data (list): list of the VideoSkeletonData
+        HumanDetectionModel (str): Optional metadata
+        PoseEstimationModel (str): Optional metadata
+        Pose3DGenerationMethod (str): Optional metadata
+        lifting_model_3d (str): Optional metadata (3DLiftingModel)
     """
-    def __init__(self, origin: str, data=None):
+    def __init__(self, origin: str, data: List[VideoSkeletonData] = None,
+                 HumanDetectionModel: str = None, PoseEstimationModel: str = None,
+                 Pose3DGenerationMethod: str = None, lifting_model_3d: str = None):
         """
         Initialize a new PEVideo instance.
 
@@ -45,9 +51,13 @@ class PEVideo:
             data (List[VideoSkeletonData]): list of the VideoSkeletonData
         """
         if data is None:
-            data=[]
+            data = []
         self.origin = origin
         self.data = data
+        self.HumanDetectionModel = HumanDetectionModel
+        self.PoseEstimationModel = PoseEstimationModel
+        self.Pose3DGenerationMethod = Pose3DGenerationMethod
+        self.lifting_model_3d = lifting_model_3d
 
     def set_data(self, data: List[VideoSkeletonData]) -> None:
         """
@@ -67,7 +77,7 @@ class PEVideo:
         """
         return self.data
     
-    def add_frame(self, frame: VideoSkeletonData):
+    def add_frame(self, frame: VideoSkeletonData) -> None:
         """
         Adds the frame to the data list.
 
@@ -83,10 +93,20 @@ class PEVideo:
         Returns:
              str: The object as JSON string.
         """
-        return json.dumps({
-            "origin": self.origin,
-            "frames": [frame.to_dict() for frame in self.data]
-        }, indent=2)
+        res = {"origin": self.origin}
+
+        # Add metadata if present
+        if self.HumanDetectionModel:
+            res["HumanDetectionModel"] = self.HumanDetectionModel
+        if self.PoseEstimationModel:
+            res["PoseEstimationModel"] = self.PoseEstimationModel
+        if self.Pose3DGenerationMethod:
+            res["Pose3DGenerationMethod"] = self.Pose3DGenerationMethod
+        if self.lifting_model_3d:
+            res["3DLiftingModel"] = self.lifting_model_3d
+
+        res["frames"] = [frame.to_dict() for frame in self.data]
+        return json.dumps(res, indent=2)
 
     def save_in_file(self, filename:str) -> None:
         """
