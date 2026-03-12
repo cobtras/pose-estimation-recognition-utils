@@ -33,7 +33,7 @@ This project uses JSON files to store 3D skeleton data, supporting both:
 ```
 
 > 📦 Class: `ImageSkeletonData`  
-> 📌 Data points: `SkeletonDataPoint` or `SkeletonDataPointWithName`  
+> 📌 Data points: `SkeletonDataPoint`, `SkeletonDataPointWithName`, `SkeletonDataPointWithConfidence` or `SkeletonDataPointWithConfidenceAndName`  
 > 🔧 Methods: `.add_data_point()`, `.to_json()`
 
 ---
@@ -49,12 +49,14 @@ Each frame stores its own list of 3D joint positions.
   "origin": "mediapipe",
   "frames": [
     {
+      "frame": 0,
       "skeletonpoints": [
         { "id": 0, "x": 0.23, "y": 0.61, "z": 0.12 },
         { "id": 1, "x": 0.28, "y": 0.66, "z": 0.10 }
       ]
     },
     {
+      "frame": 1,
       "skeletonpoints": [
         { "id": 0, "x": 0.24, "y": 0.62, "z": 0.13 },
         { "id": 1, "x": 0.29, "y": 0.67, "z": 0.11 }
@@ -71,12 +73,14 @@ Each frame stores its own list of 3D joint positions.
   "origin": "mediapipe",
   "frames": [
     {
+      "frame": 0,
       "skeletonpoints": [
         { "id": 0, "name": "left_shoulder", "x": 0.23, "y": 0.61, "z": 0.12 },
         { "id": 1, "name": "right_shoulder", "x": 0.28, "y": 0.66, "z": 0.10 }
       ]
     },
     {
+      "frame": 1,
       "skeletonpoints": [
         { "id": 0, "name": "left_shoulder", "x": 0.24, "y": 0.62, "z": 0.13 },
         { "id": 1, "name": "right_shoulder", "x": 0.29, "y": 0.67, "z": 0.11 }
@@ -86,8 +90,8 @@ Each frame stores its own list of 3D joint positions.
 }
 ```
 
-> 📦 Class: `VideoSkeletonData`  
-> 🔁 Internally stores a list of `ImageSkeletonData` frames  
+> 📦 Class: `VideoSkeletonData` (represents a single frame)  
+> 🔁 `PEVideo` internally stores a list of `VideoSkeletonData` objects  
 > 🔧 Methods: `.add_frame()`, `.to_json()`
 
 ---
@@ -99,7 +103,7 @@ Each frame stores its own list of 3D joint positions.
 img_data = ImageSkeletonData()
 img_data.add_data_point(SkeletonDataPoint(0, 0.23, 0.61, 0.12))
 
-save_obj = PEImage(origion="mediapipe")
+save_obj = PEImage(origin="mediapipe")
 save_obj.set_data(img_data)
 json_str = save_obj.to_json()
 
