@@ -2,6 +2,8 @@
 
 Version 2.0 introduces optional metadata fields for model tracking and native support for multiple persons in a single image or video.
 
+> 📝 **Official Schema**: [schema-v2.0.json](./schema-v2.0.json)
+
 ## 🏷️ New Optional Metadata Fields
 These fields can be included at the root of the JSON or within specific person objects:
 - `HumanDetectionModel`: (str) Model used to detect humans.
