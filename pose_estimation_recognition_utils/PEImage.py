@@ -1,4 +1,4 @@
-# Copyright 2025 Jonas David Stephan
+# Copyright 2026 Jonas David Stephan
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ PEImage.py
 This module defines a class for saving pose estimation data of an image.
 
 Author: Jonas David Stephan
-Date: 2025-08-02
+Date: 2026-03-12
 License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
