@@ -24,34 +24,39 @@ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 
 import json
 
-from typing import List, Union
+from typing import List, Union, Optional
 
 from .SkeletonDataPoint import SkeletonDataPoint
 from .SkeletonDataPointWithConfidence import SkeletonDataPointWithConfidence
 from .SkeletonDataPointWithName import SkeletonDataPointWithName
 from .SkeletonDataPointWithNameAndConfidence import SkeletonDataPointWithNameAndConfidence
+from .ImageSkeletonData import ImageSkeletonData
+from .SkeletonGraph import SkeletonGraph
 
 
 class VideoSkeletonData:
     """
-    Represents skeleton data for a specific frame, including multiple persons (each with their own data points).
+    Represents skeleton data for a specific frame, including multiple persons (each with their own data points) and a shared graph.
 
     Attributes:
         data_points (list): Legacy attribute for single-person data points.
         persons (list): A list of ImageSkeletonData objects, one for each person in the frame.
         frame (int): The frame number corresponding to the skeleton data.
+        graph (SkeletonGraph): The static topology graph (optional).
     """
-    def __init__(self, frame: int):
+    def __init__(self, frame: int, graph: Optional[SkeletonGraph] = None):
         """
         Initialize the SkeletonData instance with a frame number.
 
         Args:
             frame (int): The frame number corresponding to the skeleton data.
+            graph (SkeletonGraph): The static topology graph (optional).
         """
         self.data_points: List[Union[SkeletonDataPoint, SkeletonDataPointWithConfidence, SkeletonDataPointWithName,
             SkeletonDataPointWithNameAndConfidence]] = []
         self.persons: List[ImageSkeletonData] = []
         self.frame: int = frame
+        self.graph = graph
 
     def add_data_point(self, data_point: Union[SkeletonDataPoint, SkeletonDataPointWithConfidence,
         SkeletonDataPointWithName, SkeletonDataPointWithNameAndConfidence]) -> None:
@@ -59,8 +64,7 @@ class VideoSkeletonData:
         Add a data point to the skeleton (legacy/single person).
 
         Args:
-            data_point (Union[SkeletonDataPoint, SkeletonDataPointWithConfidence, SkeletonDataPointWithName,
-                SkeletonDataPointWithNameAndConfidence]): A data point representing a part of the skeleton.
+            data_point: A data point representing a part of the skeleton.
         """
         self.data_points.append(data_point)
 
@@ -106,6 +110,10 @@ class VideoSkeletonData:
             # Fallback for backward compatibility
             data_list = [data_point.to_dict() for data_point in self.data_points]
             res["skeletonpoints"] = data_list
+            
+        if self.graph is not None:
+            res["graph"] = self.graph.to_dict()
+            
         return res
 
     def to_json(self) -> str:
