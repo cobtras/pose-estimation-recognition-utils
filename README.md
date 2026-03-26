@@ -9,3 +9,17 @@ Includes all general classes needed for AI movement recognition o generation bas
 [Detailed Skeleton Data Documentation (v 1.1) for versions > 0.2 < 0.4](docs/Data-Format-1.1.md)
 
 [Detailed Skeleton Data Documentation (v 2.0) for versions > 0.4](docs/Data-Format-2.0.md)
+
+## Installation
+
+```bash
+pip install pose-estimation-recognition-utils
+```
+
+## License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## Authors
+
+Jonas David Stephan, Nathalie Dollmann, Chanyut Boonkhamsaen

@@ -8,6 +8,12 @@ def read_requirements():
     with open(req_path, 'r') as f:
         return f.read().splitlines()
 
+def read_long_description():
+    here = os.path.dirname(os.path.abspath(__file__))
+    readme_path = os.path.join(here, 'README.md')
+    with open(readme_path, 'r', encoding='utf-8') as f:
+        return f.read()
+
 
 requirements = read_requirements()
 
@@ -22,5 +28,6 @@ setup(
     author='Jonas David Stephan, Chanyut Boonkhamsaen, Nathalie Dollmann',
     author_email='j.stephan@system-systeme.de',
     description='Classes for AI recognition on pose estimation data',
-    long_description='Includes all general classes needed for AI movement recognition based on pose estimation data'
+    long_description=read_long_description(),          # README.md Inhalt
+    long_description_content_type='text/markdown',
 )
