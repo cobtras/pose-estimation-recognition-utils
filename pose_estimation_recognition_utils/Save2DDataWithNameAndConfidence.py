@@ -18,29 +18,21 @@ Save2DDataWithNameAndConfidence.py
 This module defines a class for saving a combination of id, x coordinate and y coordinate with confidence.
 
 Author: Nathalie Dollmann, Jonas David Stephan
-Date: 2025-12-06
+Date: 2026-03-26
 License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
-from .Save2DDataWithName import Save2DDataWithName
+import warnings
+from .Save2DData import Save2DData
 
-class Save2DDataWithNameAndConfidence(Save2DDataWithName):
+class Save2DDataWithNameAndConfidence(Save2DData):
+    """
+    Deprecated: Use Save2DData with name and confidence parameters instead.
+    """
 
     def __init__(self, idx: int, name: str, x: float, y: float, confidence: float):
         """
         Initialize a new Save2DDataWithNameAndConfidence instance.
-
-        Args:
-            idx (int): The ID of the data point.
-            name (str): The name associated with the data point.
-            x (float): The x-coordinate of the data point.
-            y (float): The y-coordinate of the data point.
-            confidence (float): The confidence value of the data point.
-
-        Raises:
-            ValueError: If confidence is invalid.
         """
-        super().__init__(idx, name, x, y)
-        if not isinstance(confidence, (int, float)):
-            raise ValueError("Confidence must be numeric.")
-        self.data["confidence"]=float(confidence)
+        warnings.warn("Save2DDataWithNameAndConfidence is deprecated. Use Save2DData instead.", DeprecationWarning, stacklevel=2)
+        super().__init__(idx=idx, x=x, y=y, name=name, confidence=confidence)
