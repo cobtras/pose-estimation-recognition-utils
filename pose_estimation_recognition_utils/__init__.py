@@ -16,6 +16,7 @@ from .SkeletonDataPoint import SkeletonDataPoint
 from .SkeletonDataPointWithConfidence import SkeletonDataPointWithConfidence
 from .SkeletonDataPointWithName import SkeletonDataPointWithName
 from .SkeletonDataPointWithNameAndConfidence import SkeletonDataPointWithNameAndConfidence
+from .SkeletonGraph import SkeletonGraph
 from .VideoSkeletonData import VideoSkeletonData
 from .VideoSkeletonLoader import (
     load_video_skeleton, load_video_skeleton_object, load_video_skeleton_from_string,
@@ -31,7 +32,7 @@ __all__ = [
     'load_image_skeleton_from_string', 'load_image_skeleton_from_string_all_points',
     'load_image_skeleton_from_compressed_file', 'load_image_skeleton_all_points_from_compressed_file',
     'SkeletonDataPoint', 'SkeletonDataPointWithConfidence', 'SkeletonDataPointWithName',
-    'SkeletonDataPointWithNameAndConfidence', 'VideoSkeletonData', 'load_video_skeleton',
+    'SkeletonDataPointWithNameAndConfidence', 'SkeletonGraph', 'VideoSkeletonData', 'load_video_skeleton',
     'load_video_skeleton_object', 'load_video_skeleton_from_string', 'load_video_skeleton_all_points',
     'load_video_skeleton_from_string_all_points', 'load_video_skeleton_object_all_points',
     'load_video_skeleton_from_compressed_file', 'load_video_skeleton_all_points_from_compressed_file',
