@@ -96,6 +96,87 @@ class VideoSkeletonData:
         """
         return self.frame
 
+    def calculate_kinematics(self, prev_frame_data: 'VideoSkeletonData', time_dt: float) -> None:
+        """
+        Calculates and sets the velocity and acceleration for each data point based on the previous frame.
+
+        Args:
+            prev_frame_data (VideoSkeletonData): The skeleton data from the previous frame.
+            time_dt (float): The time delta between the current frame and the previous frame.
+        """
+        if time_dt <= 0:
+            return
+
+        # Handle multiple persons
+        if self.persons and prev_frame_data.persons:
+            # Use person_id to match if available
+            target_prev_persons = {p.person_id: p for p in prev_frame_data.persons if p.person_id is not None}
+            has_person_ids = len(target_prev_persons) > 0
+            
+            for i, curr_person in enumerate(self.persons):
+                prev_person = None
+                if has_person_ids and curr_person.person_id is not None:
+                    prev_person = target_prev_persons.get(curr_person.person_id)
+                elif i < len(prev_frame_data.persons):
+                    prev_person = prev_frame_data.persons[i]
+                
+                if prev_person:
+                    self._calculate_kinematics_for_points(curr_person.data_points, prev_person.data_points, time_dt)
+        else:
+            # Handle legacy/single person
+            self._calculate_kinematics_for_points(self.data_points, prev_frame_data.data_points, time_dt)
+
+    def _calculate_kinematics_for_points(self, curr_points: List, prev_points: List, time_dt: float) -> None:
+        """
+        Helper to calculate kinematics between two lists of data points.
+        
+        Args:
+            curr_points (list): Current frame's data points.
+            prev_points (list): Previous frame's data points.
+            time_dt (float): The time delta.
+        """
+        prev_points_dict = {p.data["id"]: p for p in prev_points if "id" in p.data}
+        for curr_p in curr_points:
+            p_id = curr_p.data.get("id")
+            if p_id in prev_points_dict:
+                prev_p = prev_points_dict[p_id]
+                
+                # Calculate vector components and Euclidean distance
+                dx = curr_p.data.get("x", 0) - prev_p.data.get("x", 0)
+                dy = curr_p.data.get("y", 0) - prev_p.data.get("y", 0)
+                dz = curr_p.data.get("z", 0) - prev_p.data.get("z", 0)
+                
+                # Store individual velocity components
+                vx = dx / time_dt
+                vy = dy / time_dt
+                vz = dz / time_dt
+                curr_p.data["velocity_x"] = vx
+                curr_p.data["velocity_y"] = vy
+                if "z" in curr_p.data or "z" in prev_p.data:
+                    curr_p.data["velocity_z"] = vz
+                
+                # Store scalar velocity magnitude
+                dist = (dx**2 + dy**2 + dz**2)**0.5
+                curr_velocity = dist / time_dt
+                curr_p.data["velocity"] = curr_velocity
+                
+                # Calculate acceleration taking vector into account
+                prev_velocity = prev_p.data.get("velocity")
+                if prev_velocity is not None:
+                    curr_acceleration = (curr_velocity - prev_velocity) / time_dt
+                    curr_p.data["acceleration"] = curr_acceleration
+                    
+                prev_vx = prev_p.data.get("velocity_x")
+                prev_vy = prev_p.data.get("velocity_y")
+                if prev_vx is not None and prev_vy is not None:
+                    curr_p.data["acceleration_x"] = (vx - prev_vx) / time_dt
+                    curr_p.data["acceleration_y"] = (vy - prev_vy) / time_dt
+                    
+                    prev_vz = prev_p.data.get("velocity_z")
+                    if prev_vz is not None and "velocity_z" in curr_p.data:
+                        curr_p.data["acceleration_z"] = (vz - prev_vz) / time_dt
+
+
     def to_dict(self) -> dict:
         """
         Convert the skeleton data to a dictionary.

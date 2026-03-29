@@ -24,7 +24,7 @@ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 
 import json
 import warnings
-from typing import Dict, Optional
+from typing import Dict, Optional, Union
 
 class Save2DData:
     """
@@ -34,7 +34,7 @@ class Save2DData:
         data (dict): A dictionary containing the point's ID, 2D coordinates (x, y), and optional name/confidence.
     """
 
-    def __init__(self, idx: int, x: float, y: float, name: Optional[str] = None, confidence: Optional[float] = None):
+    def __init__(self, idx: int, x: float, y: float, name: Optional[str] = None, confidence: Optional[float] = None, velocity: Optional[Union[float, tuple, list]] = None, acceleration: Optional[Union[float, tuple, list]] = None):
         """
         Initialize a new Save2DData instance.
 
@@ -44,9 +44,11 @@ class Save2DData:
             y (float): The y-coordinate of the data point.
             name (str, optional): The name associated with the data point.
             confidence (float, optional): The confidence value of the data point.
+            velocity (float or list/tuple, optional): The velocity (magnitude or 2D vector) of the data point.
+            acceleration (float or list/tuple, optional): The acceleration (magnitude or 2D vector) of the data point.
 
         Raises:
-            ValueError: If coordinates or confidence are not numeric, or name is not a string.
+            ValueError: If coordinates or confidence/velocity/acceleration are not numeric, or name is not a string.
         """
         if not all(isinstance(coord, (int, float)) for coord in [x, y]):
             raise ValueError("Coordinates x and y must be numeric.")
@@ -62,6 +64,30 @@ class Save2DData:
             if not isinstance(confidence, (int, float)):
                 raise ValueError("Confidence must be numeric.")
             self.data["confidence"] = float(confidence)
+            
+        if velocity is not None:
+            if isinstance(velocity, (tuple, list)):
+                if len(velocity) >= 2:
+                    self.data["velocity_x"] = float(velocity[0])
+                    self.data["velocity_y"] = float(velocity[1])
+                else:
+                    raise ValueError("Velocity tuple/list must have length 2.")
+            elif isinstance(velocity, (int, float)):
+                self.data["velocity"] = float(velocity)
+            else:
+                raise ValueError("Velocity must be numeric or a tuple/list of 2 numerics.")
+            
+        if acceleration is not None:
+            if isinstance(acceleration, (tuple, list)):
+                if len(acceleration) >= 2:
+                    self.data["acceleration_x"] = float(acceleration[0])
+                    self.data["acceleration_y"] = float(acceleration[1])
+                else:
+                    raise ValueError("Acceleration tuple/list must have length 2.")
+            elif isinstance(acceleration, (int, float)):
+                self.data["acceleration"] = float(acceleration)
+            else:
+                raise ValueError("Acceleration must be numeric or a tuple/list of 2 numerics.")
 
     def get_data(self) -> Dict[str, object]:
         """
