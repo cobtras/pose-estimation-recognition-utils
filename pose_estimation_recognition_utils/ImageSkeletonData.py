@@ -31,6 +31,7 @@ from .SkeletonDataPointWithConfidence import SkeletonDataPointWithConfidence
 from .SkeletonDataPointWithName import SkeletonDataPointWithName
 from .SkeletonDataPointWithNameAndConfidence import SkeletonDataPointWithNameAndConfidence
 from .SkeletonGraph import SkeletonGraph
+from .BoneVector import BoneVector
 
 
 class ImageSkeletonData:
@@ -62,6 +63,16 @@ class ImageSkeletonData:
         self.person_id = person_id
         self.BoundingBox = BoundingBox
         self.graph = graph
+        self.bone_vectors: List[BoneVector] = []
+
+    def add_bone_vector(self, bone_vector: BoneVector) -> None:
+        """
+        Add a bone vector to the skeleton.
+
+        Args:
+            bone_vector (BoneVector): A bone vector representation.
+        """
+        self.bone_vectors.append(bone_vector)
 
     def add_data_point(self, data_point: Union[SkeletonDataPoint, SkeletonDataPointWithConfidence,
         SkeletonDataPointWithName,  SkeletonDataPointWithNameAndConfidence]) -> None:
@@ -98,6 +109,8 @@ class ImageSkeletonData:
             res["BoundingBox"] = self.BoundingBox
         if self.graph is not None:
             res["graph"] = self.graph.to_dict()
+        if self.bone_vectors:
+            res["bone_vectors"] = [bv.to_dict() for bv in self.bone_vectors]
         return res
 
     def to_json(self) -> str:

@@ -18,6 +18,7 @@ from .SkeletonDataPointWithName import SkeletonDataPointWithName
 from .SkeletonDataPointWithNameAndConfidence import SkeletonDataPointWithNameAndConfidence
 from .SkeletonGraph import SkeletonGraph
 from .VideoSkeletonData import VideoSkeletonData
+from .BoneVector import BoneVector
 from .VideoSkeletonLoader import (
     load_video_skeleton, load_video_skeleton_object, load_video_skeleton_from_string,
     load_video_skeleton_all_points, load_video_skeleton_from_string_all_points,
@@ -37,5 +38,5 @@ __all__ = [
     'load_video_skeleton_from_string_all_points', 'load_video_skeleton_object_all_points',
     'load_video_skeleton_from_compressed_file', 'load_video_skeleton_all_points_from_compressed_file',
     'SAD', 'Save2DData', 'Save2DDataWithConfidence', 'Save2DDataWithName',
-    'Save2DDataWithNameAndConfidence', 'PEImage', 'PEVideo'
+    'Save2DDataWithNameAndConfidence', 'PEImage', 'PEVideo', 'BoneVector'
 ]
