@@ -18,7 +18,7 @@ VideoSkeletonData.py
 This module defines a class for managing skeleton data, including data points and frame information.
 
 Author: Jonas David Stephan
-Date: 2026-03-12
+Date: 2026-04-03
 License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
@@ -31,7 +31,6 @@ from .SkeletonDataPointWithConfidence import SkeletonDataPointWithConfidence
 from .SkeletonDataPointWithName import SkeletonDataPointWithName
 from .SkeletonDataPointWithNameAndConfidence import SkeletonDataPointWithNameAndConfidence
 from .ImageSkeletonData import ImageSkeletonData
-from .SkeletonGraph import SkeletonGraph
 
 
 class VideoSkeletonData:
@@ -42,21 +41,19 @@ class VideoSkeletonData:
         data_points (list): Legacy attribute for single-person data points.
         persons (list): A list of ImageSkeletonData objects, one for each person in the frame.
         frame (int): The frame number corresponding to the skeleton data.
-        graph (SkeletonGraph): The static topology graph (optional).
+        frame (int): The frame number corresponding to the skeleton data.
     """
-    def __init__(self, frame: int, graph: Optional[SkeletonGraph] = None):
+    def __init__(self, frame: int):
         """
         Initialize the SkeletonData instance with a frame number.
 
         Args:
             frame (int): The frame number corresponding to the skeleton data.
-            graph (SkeletonGraph): The static topology graph (optional).
         """
         self.data_points: List[Union[SkeletonDataPoint, SkeletonDataPointWithConfidence, SkeletonDataPointWithName,
             SkeletonDataPointWithNameAndConfidence]] = []
         self.persons: List[ImageSkeletonData] = []
         self.frame: int = frame
-        self.graph = graph
 
     def add_data_point(self, data_point: Union[SkeletonDataPoint, SkeletonDataPointWithConfidence,
         SkeletonDataPointWithName, SkeletonDataPointWithNameAndConfidence]) -> None:
@@ -191,9 +188,6 @@ class VideoSkeletonData:
             # Fallback for backward compatibility
             data_list = [data_point.to_dict() for data_point in self.data_points]
             res["skeletonpoints"] = data_list
-            
-        if self.graph is not None:
-            res["graph"] = self.graph.to_dict()
             
         return res
 
