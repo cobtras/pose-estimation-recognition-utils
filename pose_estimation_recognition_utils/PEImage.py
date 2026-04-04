@@ -28,6 +28,7 @@ from typing import List
 
 from .ImageSkeletonData import ImageSkeletonData
 from .SkeletonGraph import SkeletonGraph
+from .BoneVector import BoneVector
 
 
 class PEImage:
@@ -90,6 +91,71 @@ class PEImage:
             ImageSkeletonData: The ImageSkeletonData Object of the image.
         """
         return self.data
+
+    def calculate_bone_vectors(self, min_confidence: float = 0.0) -> None:
+        """
+        Calculate bone vectors based on the SkeletonGraph topology.
+        Vectors are marked as masked (coordinates=None, confidence=0.0) if either
+        involved joint is missing, below min_confidence, or invalid (x=0, y=0).
+
+        Args:
+            min_confidence (float): Minimum confidence threshold for a data point to be considered valid.
+        """
+        if self.graph is None:
+            return
+
+        edges = self.graph.edges
+
+        def _is_valid_point(p_data: dict) -> bool:
+            x = p_data.get("x")
+            y = p_data.get("y")
+            if x is None or y is None:
+                return False
+            if x == 0.0 and y == 0.0:
+                return False
+            conf = p_data.get("confidence")
+            if conf is not None and conf < min_confidence:
+                return False
+            return True
+
+        persons_to_process = self.persons if self.persons else ([self.data] if self.data else [])
+
+        for person in persons_to_process:
+            pts_dict = {
+                p.data["id"]: p.data 
+                for p in person.get_data_points()
+                if "id" in p.data
+            }
+
+            person.bone_vectors = []
+            for start_id, end_id in edges:
+                pt_start = pts_dict.get(start_id)
+                pt_end = pts_dict.get(end_id)
+
+                if pt_start and pt_end and _is_valid_point(pt_start) and _is_valid_point(pt_end):
+                    dx = pt_end["x"] - pt_start["x"]
+                    dy = pt_end["y"] - pt_start["y"]
+                    dz = None
+                    if "z" in pt_start and "z" in pt_end:
+                        dz = pt_end["z"] - pt_start["z"]
+                    
+                    conf_start = pt_start.get("confidence")
+                    conf_end = pt_end.get("confidence")
+                    
+                    if conf_start is not None and conf_end is not None:
+                        bone_conf = min(conf_start, conf_end)
+                    elif conf_start is not None:
+                        bone_conf = conf_start
+                    elif conf_end is not None:
+                        bone_conf = conf_end
+                    else:
+                        bone_conf = None
+                        
+                    bv = BoneVector(start=start_id, end=end_id, x=dx, y=dy, z=dz, confidence=bone_conf)
+                else:
+                    bv = BoneVector(start=start_id, end=end_id, x=None, y=None, z=None, confidence=0.0)
+
+                person.add_bone_vector(bv)
 
     def to_json(self) -> str:
         """

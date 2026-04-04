@@ -26,12 +26,13 @@ class BoneVector:
     """
     Represents a bone vector with start, end, x, y, and optional z coordinates.
     """
-    def __init__(self, start: int, end: int, x: float, y: float, z: Optional[float] = None):
+    def __init__(self, start: int, end: int, x: Optional[float], y: Optional[float], z: Optional[float] = None, confidence: Optional[float] = None):
         self.start = start
         self.end = end
         self.x = x
         self.y = y
         self.z = z
+        self.confidence = confidence
 
     def to_dict(self) -> dict:
         """
@@ -39,10 +40,14 @@ class BoneVector:
         """
         res = {
             "start": self.start,
-            "end": self.end,
-            "x": self.x,
-            "y": self.y
+            "end": self.end
         }
+        if self.x is not None:
+            res["x"] = self.x
+        if self.y is not None:
+            res["y"] = self.y
         if self.z is not None:
             res["z"] = self.z
+        if self.confidence is not None:
+            res["confidence"] = self.confidence
         return res
