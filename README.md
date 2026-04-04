@@ -8,7 +8,9 @@ Includes all general classes needed for AI movement recognition o generation bas
 
 [Detailed Skeleton Data Documentation (v 1.1) for versions > 0.2 < 0.4](docs/Data-Format-1.1.md)
 
-[Detailed Skeleton Data Documentation (v 2.0) for versions > 0.4](docs/Data-Format-2.0.md)
+[Detailed Skeleton Data Documentation (v 2.0) for versions > 0.4 < 0.5](docs/Data-Format-2.0.md)
+
+[Detailed Skeleton Data Documentation (v 3.0) for versions > 0.5](docs/Data-Format-3.0.md)
 
 ## Installation
 
