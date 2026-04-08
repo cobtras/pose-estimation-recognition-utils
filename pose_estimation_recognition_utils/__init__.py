@@ -24,7 +24,7 @@ from .VideoSkeletonLoader import (
     load_video_skeleton_all_points_from_compressed_file
 )
 
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 __all__ = [
     'ImageSkeletonData', 'load_image_skeleton', 'load_image_skeleton_object',
     'load_image_skeleton_all_points', 'load_image_skeleton_object_all_points',
