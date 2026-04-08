@@ -27,7 +27,7 @@ import json
 
 from typing import List, Set, Tuple
 
-from pose_estimation_recognition_utils import ImageSkeletonData
+from .ImageSkeletonData import ImageSkeletonData
 
 
 def load_image_skeleton(file_path: str, points_to_include: str, person_id: int = 0, include_velocity: bool = False, include_acceleration: bool = False) -> np.ndarray:
