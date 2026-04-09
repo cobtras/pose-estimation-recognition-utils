@@ -26,6 +26,7 @@ import json
 
 from typing import List, Union
 
+from .ImageSkeletonData import ImageSkeletonData
 from .SkeletonDataPoint import SkeletonDataPoint
 from .SkeletonDataPointWithConfidence import SkeletonDataPointWithConfidence
 from .SkeletonDataPointWithName import SkeletonDataPointWithName
