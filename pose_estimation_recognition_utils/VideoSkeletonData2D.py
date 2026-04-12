@@ -13,12 +13,12 @@
 # limitations under the License.
 
 """
-VideoSkeletonData.py
+VideoSkeletonData2D.py
 
-This module defines a class for managing skeleton data, including data points and frame information.
+This module defines a class for managing 2D skeleton data for videos, including data points and frame information.
 
 Author: Jonas David Stephan
-Date: 2026-03-12
+Date: 2026-04-12
 License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 """
 
@@ -33,13 +33,13 @@ from .Save2DDataWithName import Save2DDataWithName
 from .Save2DDataWithNameAndConfidence import Save2DDataWithNameAndConfidence
 
 
-class VideoSkeletonData:
+class VideoSkeletonData2D:
     """
-    Represents skeleton data for a specific frame, including multiple persons (each with their own data points).
+    Represents 2D skeleton data for a specific frame, including multiple persons (each with their own data points).
 
     Attributes:
         data_points (list): Legacy attribute for single-person data points.
-        persons (list): A list of ImageSkeletonData objects, one for each person in the frame.
+        persons (list): A list of ImageSkeletonData2D objects, one for each person in the frame.
         frame (int): The frame number corresponding to the skeleton data.
     """
     def __init__(self, frame: int):
@@ -70,7 +70,7 @@ class VideoSkeletonData:
         Add a person's skeleton data to the frame.
 
         Args:
-            person (ImageSkeletonData): The skeleton data for one person.
+            person (ImageSkeletonData2D): The skeleton data for one person.
         """
         self.persons.append(person)
 

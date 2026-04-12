@@ -13,9 +13,9 @@
 # limitations under the License.
 
 """
-ImageSkeletonData.py
+ImageSkeletonData2D.py
 
-This module defines a class for managing skeleton data, including data points.
+This module defines a class for managing 2D skeleton data, including data points.
 
 Author: Jonas David Stephan
 Date: 2026-04-12
@@ -32,9 +32,9 @@ from .Save2DDataWithName import Save2DDataWithName
 from .Save2DDataWithNameAndConfidence import Save2DDataWithNameAndConfidence
 
 
-class ImageSkeletonData:
+class ImageSkeletonData2D:
     """
-    Represents skeleton data for a specific person in a frame, including multiple data points and metadata.
+    Represents 2D skeleton data for a specific person in a frame, including multiple data points and metadata.
 
     Attributes:
         data_points (list): A list of data points associated with the skeleton.
