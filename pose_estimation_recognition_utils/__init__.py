@@ -44,7 +44,8 @@ from .VideoSkeletonLoader2D import (
 
 __version__ = '0.5.0b3'
 __all__ = [
-    'ImageSkeletonData', 'ImageSkeletonData2D', 'load_image_skeleton', 'load_image_skeleton2D',
+    'ImageSkeletonData', 'ImageSkeletonData2D',
+    'load_image_skeleton', 'load_image_skeleton2D',
     'load_image_skeleton_object', 'load_image_skeleton_object2D',
     'load_image_skeleton_all_points', 'load_image_skeleton_all_points2D',
     'load_image_skeleton_object_all_points', 'load_image_skeleton_object_all_points2D',
@@ -53,20 +54,15 @@ __all__ = [
     'load_image_skeleton_from_compressed_file', 'load_image_skeleton_from_compressed_file2D',
     'load_image_skeleton_all_points_from_compressed_file', 'load_image_skeleton_all_points_from_compressed_file2D',
     'SkeletonDataPoint', 'SkeletonDataPointWithConfidence', 'SkeletonDataPointWithName',
-    'SkeletonDataPointWithNameAndConfidence', 'SkeletonGraph', 'VideoSkeletonData', 'load_video_skeleton',
-    'load_video_skeleton_object', 'load_video_skeleton_from_string', 'load_video_skeleton_all_points',
-    'load_video_skeleton_from_string_all_points', 'load_video_skeleton_object_all_points',
-    'load_video_skeleton_from_compressed_file', 'load_video_skeleton_all_points_from_compressed_file',
-    'SkeletonDataPointWithNameAndConfidence', 'VideoSkeletonData', 'VideoSkeletonData2D',
-    'load_video_skeleton', 'load_video_skeleton2D',
+    'SkeletonDataPointWithNameAndConfidence', 'SkeletonGraph', 'VideoSkeletonData', 'VideoSkeletonData2D',
+    'BoneVector', 'load_video_skeleton', 'load_video_skeleton2D',
     'load_video_skeleton_object', 'load_video_skeleton_object2D',
-    'load_video_skeleton_from_string', 'load_video_skeleton_from_string2D',
     'load_video_skeleton_all_points', 'load_video_skeleton_all_points2D',
+    'load_video_skeleton_from_string', 'load_video_skeleton_from_string2D',
     'load_video_skeleton_from_string_all_points', 'load_video_skeleton_from_string_all_points2D',
     'load_video_skeleton_object_all_points', 'load_video_skeleton_object_all_points2D',
     'load_video_skeleton_from_compressed_file', 'load_video_skeleton_from_compressed_file2D',
     'load_video_skeleton_all_points_from_compressed_file', 'load_video_skeleton_all_points_from_compressed_file2D',
     'SAD', 'Save2DData', 'Save2DDataWithConfidence', 'Save2DDataWithName',
-    'Save2DDataWithNameAndConfidence', 'PEImage', 'PEVideo', 'BoneVector'
     'Save2DDataWithNameAndConfidence', 'PEImage', 'PEImage2D', 'PEVideo', 'PEVideo2D'
 ]
