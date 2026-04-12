@@ -110,6 +110,15 @@ class Save2DData:
         """
         return {k: v for k, v in self.data.items() if v is not None}
 
+    def to_dict(self) -> Dict[str, object]:
+        """
+        Convert the data point to a dictionary.
+
+        Returns:
+            dict: The dictionary representation of the data point.
+        """
+        return self.data
+
     def to_json(self) -> str:
         """
         Convert the data point to a JSON string.
