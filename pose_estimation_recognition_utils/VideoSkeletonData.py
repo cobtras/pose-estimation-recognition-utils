@@ -24,9 +24,8 @@ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 
 import json
 
-from typing import List, Union, Optional
+from typing import List, Union
 
-from .ImageSkeletonData import ImageSkeletonData
 from .SkeletonDataPoint import SkeletonDataPoint
 from .SkeletonDataPointWithConfidence import SkeletonDataPointWithConfidence
 from .SkeletonDataPointWithName import SkeletonDataPointWithName

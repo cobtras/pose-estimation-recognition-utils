@@ -1,10 +1,9 @@
 import sys
 import os
 import json
-import numpy as np
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from pose_estimation_recognition_utils.ImageSkeletonLoader import load_image_skeleton_from_string, load_image_bone_vectors_from_string
+from pose_estimation_recognition_utils.ImageSkeletonLoader import load_image_skeleton_from_string
 from pose_estimation_recognition_utils.VideoSkeletonLoader import load_multi_person_video_skeleton_from_string, load_video_bone_vectors_from_string
 
 v_data = {
