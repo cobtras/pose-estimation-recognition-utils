@@ -31,6 +31,7 @@ from .Save2DData import Save2DData
 from .Save2DDataWithConfidence import Save2DDataWithConfidence
 from .Save2DDataWithName import Save2DDataWithName
 from .Save2DDataWithNameAndConfidence import Save2DDataWithNameAndConfidence
+from .BoneVector import BoneVector
 
 
 class VideoSkeletonData2D:
@@ -53,6 +54,16 @@ class VideoSkeletonData2D:
         Save2DDataWithNameAndConfidence]] = []
         self.persons: List[ImageSkeletonData2D] = []
         self.frame: int = frame
+        self.bone_vectors: List[BoneVector] = []
+
+    def add_bone_vector(self, bone_vector: BoneVector) -> None:
+        """
+        Add a bone vector to the skeleton.
+
+        Args:
+            bone_vector (BoneVector): A bone vector representation.
+        """
+        self.bone_vectors.append(bone_vector)
 
     def add_data_point(self, data_point: Union[Save2DData, Save2DDataWithConfidence, Save2DDataWithName,
         Save2DDataWithNameAndConfidence]) -> None:
@@ -107,6 +118,10 @@ class VideoSkeletonData2D:
             # Fallback for backward compatibility
             data_list = [data_point.to_dict() for data_point in self.data_points]
             res["poseestimationpoints"] = data_list
+            
+        if self.bone_vectors:
+            res["bone_vectors"] = [bv.to_dict() for bv in self.bone_vectors]
+            
         return res
 
     def to_json(self) -> str:

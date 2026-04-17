@@ -24,12 +24,14 @@ License: Apache License 2.0 (https://www.apache.org/licenses/LICENSE-2.0)
 
 import json
 
-from typing import List, Union
+from typing import List, Union, Optional
 
 from .Save2DData import Save2DData
 from .Save2DDataWithConfidence import Save2DDataWithConfidence
 from .Save2DDataWithName import Save2DDataWithName
 from .Save2DDataWithNameAndConfidence import Save2DDataWithNameAndConfidence
+from .SkeletonGraph import SkeletonGraph
+from .BoneVector import BoneVector
 
 
 class ImageSkeletonData2D:
@@ -41,18 +43,35 @@ class ImageSkeletonData2D:
         person_id (int): The ID of the person (optional).
         BoundingBox (list): The bounding box [x, y, w, h] of the person (optional).
     """
-    def __init__(self, person_id: int = None, BoundingBox: List[float] = None):
+    def __init__(
+        self,
+        person_id: Optional[int] = None,
+        BoundingBox: Optional[List[float]] = None,
+        graph: Optional[SkeletonGraph] = None
+    ):
         """
         Initialize the SkeletonData instance.
 
         Args:
             person_id (int): The ID of the person (optional).
             BoundingBox (list): The bounding box [x, y, w, h] of the person (optional).
+            graph (SkeletonGraph): The static topology graph (optional).
         """
         self.data_points: List[Union[Save2DData, Save2DDataWithConfidence, Save2DDataWithName,
         Save2DDataWithNameAndConfidence]] = []
         self.person_id = person_id
         self.BoundingBox = BoundingBox
+        self.graph = graph
+        self.bone_vectors: List[BoneVector] = []
+
+    def add_bone_vector(self, bone_vector: BoneVector) -> None:
+        """
+        Add a bone vector to the skeleton.
+
+        Args:
+            bone_vector (BoneVector): A bone vector representation.
+        """
+        self.bone_vectors.append(bone_vector)
 
     def add_data_point(self, data_point: Union[Save2DData, Save2DDataWithConfidence, Save2DDataWithName,
         Save2DDataWithNameAndConfidence]) -> None:
@@ -88,6 +107,10 @@ class ImageSkeletonData2D:
             res["person_id"] = self.person_id
         if self.BoundingBox is not None:
             res["BoundingBox"] = self.BoundingBox
+        if self.graph is not None:
+            res["graph"] = self.graph.to_dict()
+        if self.bone_vectors:
+            res["bone_vectors"] = [bv.to_dict() for bv in self.bone_vectors]
         return res
 
     def to_json(self) -> str:
