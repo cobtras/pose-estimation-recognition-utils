@@ -101,6 +101,31 @@ class Save2DData:
         warnings.warn("Save2DData.get_data() is deprecated. Use to_dict() instead.", DeprecationWarning, stacklevel=2)
         return self.to_dict()
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "Save2DData":
+        """
+        Create a Save2DData instance from a dictionary.
+        """
+        idx = data.get("id")
+        x = data.get("x")
+        y = data.get("y")
+        name = data.get("name")
+        confidence = data.get("confidence")
+        
+        velocity = None
+        if "velocity_x" in data and "velocity_y" in data:
+            velocity = (data["velocity_x"], data["velocity_y"])
+        elif "velocity" in data:
+            velocity = data["velocity"]
+            
+        acceleration = None
+        if "acceleration_x" in data and "acceleration_y" in data:
+            acceleration = (data["acceleration_x"], data["acceleration_y"])
+        elif "acceleration" in data:
+            acceleration = data["acceleration"]
+            
+        return cls(idx, x, y, name, confidence, velocity, acceleration)
+
     def to_dict(self) -> Dict[str, object]:
         """
         Convert the data point to a dictionary. Returns fields only if they have values.
@@ -109,15 +134,6 @@ class Save2DData:
             dict: The dictionary representation of the data point.
         """
         return {k: v for k, v in self.data.items() if v is not None}
-
-    def to_dict(self) -> Dict[str, object]:
-        """
-        Convert the data point to a dictionary.
-
-        Returns:
-            dict: The dictionary representation of the data point.
-        """
-        return self.data
 
     def to_json(self) -> str:
         """

@@ -34,6 +34,20 @@ class BoneVector:
         self.z = z
         self.confidence = confidence
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "BoneVector":
+        """
+        Create a BoneVector instance from a dictionary.
+        """
+        return cls(
+            start=data.get("start"),
+            end=data.get("end"),
+            x=data.get("x"),
+            y=data.get("y"),
+            z=data.get("z"),
+            confidence=data.get("confidence")
+        )
+
     def to_dict(self) -> dict:
         """
         Convert the bone vector to a dictionary representation.

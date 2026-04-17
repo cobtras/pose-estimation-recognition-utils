@@ -20,7 +20,7 @@ requirements = read_requirements()
 
 setup(
     name='pose-estimation-recognition-utils',
-    version='0.5.0b4',
+    version='0.5.0b5',
     packages=['pose_estimation_recognition_utils'],
     install_requires=requirements,
     url='https://github.com/cobtras/pose-estimation-recognition-utils',

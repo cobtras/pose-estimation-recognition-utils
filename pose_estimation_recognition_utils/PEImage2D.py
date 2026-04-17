@@ -149,6 +149,72 @@ class PEImage2D:
 
                 person.add_bone_vector(bv)
 
+    @classmethod
+    def from_json(cls, json_str: str) -> "PEImage2D":
+        """
+        Create a PEImage2D instance from a JSON string.
+
+        Args:
+            json_str (str): The JSON string representation of the object.
+
+        Returns:
+            PEImage2D: A new PEImage2D instance.
+        """
+        data = json.loads(json_str)
+        graph_dict = data.get("graph")
+        graph = SkeletonGraph.from_dict(graph_dict) if graph_dict else None
+        
+        instance = cls(
+            origin=data.get("origin"),
+            HumanDetectionModel=data.get("HumanDetectionModel"),
+            PoseEstimationModel=data.get("PoseEstimationModel"),
+            graph=graph
+        )
+        
+        if "persons" in data:
+            for p_dict in data["persons"]:
+                if graph and "graph" not in p_dict:
+                    p_dict["graph"] = graph_dict
+                instance.add_person(ImageSkeletonData2D.from_dict(p_dict))
+        elif "poseestimationpoints" in data:
+            sd_dict = {
+                "poseestimationpoints": data["poseestimationpoints"],
+                "person_id": data.get("person_id"),
+                "BoundingBox": data.get("BoundingBox"),
+                "graph": graph_dict
+            }
+            instance.set_data(ImageSkeletonData2D.from_dict(sd_dict))
+            
+        return instance
+
+    @classmethod
+    def load_from_file(cls, filename: str) -> "PEImage2D":
+        """
+        Loads the object from a JSON file.
+
+        Args:
+            filename (str): The filename (with path) to the file to load.
+
+        Returns:
+            PEImage2D: The loaded PEImage2D object.
+        """
+        with open(filename, "r") as f:
+            return cls.from_json(f.read())
+
+    @classmethod
+    def load_from_compressed_file(cls, filename: str) -> "PEImage2D":
+        """
+        Loads the object from a compressed (.pei2z) file.
+
+        Args:
+            filename (str): The filename (with path) to the file to load.
+
+        Returns:
+            PEImage2D: The loaded PEImage2D object.
+        """
+        with gzip.open(filename, "rt", encoding="utf-8") as f:
+            return cls.from_json(f.read())
+
     def to_json(self) -> str:
         """
         Retrieve the object as JSON string.

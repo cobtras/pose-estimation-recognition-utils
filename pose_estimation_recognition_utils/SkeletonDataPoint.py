@@ -105,6 +105,32 @@ class SkeletonDataPoint:
         warnings.warn("SkeletonDataPoint.get_data() is deprecated. Use to_dict() instead.", DeprecationWarning, stacklevel=2)
         return self.to_dict()
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "SkeletonDataPoint":
+        """
+        Create a SkeletonDataPoint instance from a dictionary.
+        """
+        idx = data.get("id")
+        x = data.get("x")
+        y = data.get("y")
+        z = data.get("z")
+        name = data.get("name")
+        confidence = data.get("confidence")
+        
+        velocity = None
+        if "velocity_x" in data and "velocity_y" in data and "velocity_z" in data:
+            velocity = (data["velocity_x"], data["velocity_y"], data["velocity_z"])
+        elif "velocity" in data:
+            velocity = data["velocity"]
+            
+        acceleration = None
+        if "acceleration_x" in data and "acceleration_y" in data and "acceleration_z" in data:
+            acceleration = (data["acceleration_x"], data["acceleration_y"], data["acceleration_z"])
+        elif "acceleration" in data:
+            acceleration = data["acceleration"]
+            
+        return cls(idx, x, y, z, name, confidence, velocity, acceleration)
+
     def to_dict(self) -> Dict[str, object]:
         """
         Convert the data point to a dictionary. Returns fields only if they have values.

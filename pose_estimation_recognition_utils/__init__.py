@@ -42,7 +42,7 @@ from .VideoSkeletonLoader2D import (
     load_video_skeleton_all_points_from_compressed_file2D
 )
 
-__version__ = '0.5.0b4'
+__version__ = '0.5.0b5'
 __all__ = [
     'ImageSkeletonData', 'ImageSkeletonData2D',
     'load_image_skeleton', 'load_image_skeleton2D',

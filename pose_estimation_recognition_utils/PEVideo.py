@@ -209,6 +209,64 @@ class PEVideo:
                                     interp_bv.confidence = prev_bv.confidence + fraction * (bv.confidence - prev_bv.confidence)
                         last_valid_idx = curr_idx
 
+    @classmethod
+    def from_json(cls, json_str: str) -> "PEVideo":
+        """
+        Create a PEVideo instance from a JSON string.
+
+        Args:
+            json_str (str): The JSON string representation of the object.
+
+        Returns:
+            PEVideo: A new PEVideo instance.
+        """
+        data = json.loads(json_str)
+        graph_dict = data.get("graph")
+        graph = SkeletonGraph.from_dict(graph_dict) if graph_dict else None
+        
+        instance = cls(
+            origin=data.get("origin"),
+            HumanDetectionModel=data.get("HumanDetectionModel"),
+            PoseEstimationModel=data.get("PoseEstimationModel"),
+            Pose3DGenerationMethod=data.get("Pose3DGenerationMethod"),
+            lifting_model_3d=data.get("3DLiftingModel"),
+            graph=graph
+        )
+        
+        if "frames" in data:
+            for f_dict in data["frames"]:
+                instance.add_frame(VideoSkeletonData.from_dict(f_dict))
+                
+        return instance
+
+    @classmethod
+    def load_from_file(cls, filename: str) -> "PEVideo":
+        """
+        Loads the object from a JSON file.
+
+        Args:
+            filename (str): The filename (with path) to the file to load.
+
+        Returns:
+            PEVideo: The loaded PEVideo object.
+        """
+        with open(filename, "r") as f:
+            return cls.from_json(f.read())
+
+    @classmethod
+    def load_from_compressed_file(cls, filename: str) -> "PEVideo":
+        """
+        Loads the object from a compressed (.pevz) file.
+
+        Args:
+            filename (str): The filename (with path) to the file to load.
+
+        Returns:
+            PEVideo: The loaded PEVideo object.
+        """
+        with gzip.open(filename, "rt", encoding="utf-8") as f:
+            return cls.from_json(f.read())
+
     def to_json(self) -> str:
         """
         Retrieve the object as JSON string.

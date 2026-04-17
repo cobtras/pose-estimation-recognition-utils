@@ -130,6 +130,31 @@ class SkeletonGraph:
         """
         return len(self.neighbors(joint_id))
         
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]) -> "SkeletonGraph":
+        """
+        Create a SkeletonGraph instance from a dictionary.
+        
+        Args:
+            data (Dict[str, Any]): Dictionary containing 'edges' and optionally 'edge_types'.
+            
+        Returns:
+            SkeletonGraph: A new SkeletonGraph instance.
+        """
+        edges = [tuple(edge) for edge in data.get("edges", [])]
+        edge_types = None
+        json_edge_types = data.get("edge_types")
+        if json_edge_types:
+            edge_types = {}
+            for key, label in json_edge_types.items():
+                try:
+                    # Convert string key "1_2" back to tuple (1, 2)
+                    a_str, b_str = key.split("_")
+                    edge_types[(int(a_str), int(b_str))] = label
+                except ValueError:
+                    continue
+        return cls(edges=edges, edge_types=edge_types)
+
     def to_dict(self) -> Dict[str, Any]:
         """
         Convert the skeleton graph into a dictionary for JSON serialization.

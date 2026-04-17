@@ -176,6 +176,24 @@ class VideoSkeletonData2D:
                     curr_p.data["acceleration_x"] = (vx - prev_vx) / time_dt
                     curr_p.data["acceleration_y"] = (vy - prev_vy) / time_dt
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "VideoSkeletonData2D":
+        """
+        Create a VideoSkeletonData2D instance from a dictionary.
+        """
+        instance = cls(frame=data.get("frame", 0))
+        if "persons" in data:
+            for p_dict in data["persons"]:
+                instance.add_person(ImageSkeletonData2D.from_dict(p_dict))
+        elif "poseestimationpoints" in data:
+            for p_dict in data["poseestimationpoints"]:
+                instance.add_data_point(Save2DData.from_dict(p_dict))
+        
+        if "bone_vectors" in data:
+            for bv_dict in data["bone_vectors"]:
+                instance.add_bone_vector(BoneVector.from_dict(bv_dict))
+        return instance
+
     def to_dict(self) -> dict:
         """
         Convert the skeleton data to a dictionary.

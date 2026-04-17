@@ -94,6 +94,26 @@ class ImageSkeletonData2D:
         """
         return self.data_points
 
+    @classmethod
+    def from_dict(cls, data: dict) -> "ImageSkeletonData2D":
+        """
+        Create an ImageSkeletonData2D instance from a dictionary.
+        """
+        person_id = data.get("person_id")
+        bounding_box = data.get("BoundingBox")
+        graph_dict = data.get("graph")
+        graph = SkeletonGraph.from_dict(graph_dict) if graph_dict else None
+        
+        instance = cls(person_id=person_id, BoundingBox=bounding_box, graph=graph)
+        
+        for p_dict in data.get("poseestimationpoints", []):
+            instance.add_data_point(Save2DData.from_dict(p_dict))
+            
+        for bv_dict in data.get("bone_vectors", []):
+            instance.add_bone_vector(BoneVector.from_dict(bv_dict))
+            
+        return instance
+
     def to_dict(self) -> dict:
         """
         Convert the skeleton data to a dictionary.
